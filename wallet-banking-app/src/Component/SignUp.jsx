@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -12,6 +10,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { ASYNC_SIGNUP, selectUserData } from "../reduxSlices/authSlice";
+import FormHelperText from "@mui/material/FormHelperText";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Copyright(props) {
   return (
@@ -33,14 +36,66 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+function validateEmail(email) {
+  // console.log(email);
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
+function validatePassword(password) {
+  const regex_pass =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,20}$/;
+  return regex_pass.test(password);
+}
+
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const [values, setValues] = useState({
+    email: "",
+    username: "",
+    password: "",
+  });
+  const dispatch = useDispatch();
+  const selectorData = useSelector(selectUserData);
+  const error = selectorData.error;
+  const logging = selectorData.logging;
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+    console.log(values);
+  };
+
+  const formSubmitHandler = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    // console.log("Inside form submit");
+    let flag = 0;
+
+    if (!validateEmail(values.email)) {
+      setEmailError(true);
+      flag = 1;
+    } else {
+      setEmailError(false);
+    }
+
+    if (!validatePassword(values.password)) {
+      setPasswordError(true);
+      flag = 1;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (flag) return;
+    dispatch(
+      ASYNC_SIGNUP({
+        email: values.email,
+        password: values.password,
+        username: values.username,
+        logging: true,
+      })
+    );
+    
   };
 
   return (
@@ -61,17 +116,14 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
                   name="username"
+                  value={values.username}
+                  onChange={handleChange("username")}
                   required
                   fullWidth
                   id="username"
@@ -87,25 +139,46 @@ export default function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value={values.email}
+                  onChange={handleChange("email")}
                   autoComplete="email"
                 />
+                {emailError ? (
+                  <FormHelperText error={true}>
+                    Enter a valid Email ID
+                  </FormHelperText>
+                ) : null}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
                   name="password"
+                  value={values.password}
+                  onChange={handleChange("password")}
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
                 />
               </Grid>
+              {passwordError ? (
+                <FormHelperText error={true}>
+                  Password must have at least 1 number 1 uppercase and lowercase
+                  character, 1 special symbol and between 8 to 20 characters
+                </FormHelperText>
+              ) : null}
             </Grid>
+            {logging ? (
+              <CircularProgress className="display-block" />
+            ) : error ? (
+              <FormHelperText error={true}>{error}</FormHelperText>
+            ) : null}
             <Button
               type="submit"
               fullWidth
               variant="contained"
+              onClick={formSubmitHandler}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
