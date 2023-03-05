@@ -1,23 +1,50 @@
 package com.nextuple.walletapi.controller;
 
+import com.nextuple.walletapi.payload.request.SignupRequest;
+import com.nextuple.walletapi.payload.request.WalletAmountTransferRequest;
+import com.nextuple.walletapi.payload.request.WalletRechargeRequest;
 import com.nextuple.walletapi.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @RestController
+@RequestMapping("/api/wallet")
 public class WalletController {
     @Autowired
     private WalletService walletService;
 
-    @GetMapping(value="/showAllUsers",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> showAllUsers()
-    {
-        ResponseEntity<?> responseEntity =  new ResponseEntity<>(walletService.showAllUsers(), HttpStatus.OK);
-        return responseEntity;
+    @PostMapping("/recharge")
+    public ResponseEntity<?>  recharge(@RequestHeader("Authorization") String token,@RequestBody WalletRechargeRequest walletRechargeRequest){
+//        System.out.println(token);
+//        System.out.println(walletRechargeRequest);
+//        System.out.println(token);
+//        System.out.println(walletRechargeRequest);
+//        return authService.signup(signupRequest);
+
+        return walletService.walletRecharge(token,walletRechargeRequest);
     }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<?>  walletTransfer(@RequestHeader("Authorization") String token, @RequestBody WalletAmountTransferRequest walletAmountTransferRequest){
+//        System.out.println(walletAmountTransferRequest);
+//        System.out.println(walletAmountTransferRequest);
+        return walletService.walletAmountTransfer(token,walletAmountTransferRequest);
+    }
+
+    @GetMapping("/show-balance")
+      public ResponseEntity<?> showBalance(@RequestHeader ("Authorization") String token)
+    {
+//        System.out.println(token);
+        return walletService.showBalance(token);
+    }
+
+    @GetMapping("/show-all-transactions")
+    public ResponseEntity<?>  showTransactions(@RequestHeader("Authorization") String token){
+        return walletService.showAllTransactions(token);
+    }
+
 
 }

@@ -1,0 +1,167 @@
+package com.nextuple.walletapi;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nextuple.walletapi.jwt.JWTUtil;
+import com.nextuple.walletapi.models.Transactions;
+import com.nextuple.walletapi.models.User;
+import com.nextuple.walletapi.payload.request.SignupRequest;
+import com.nextuple.walletapi.payload.request.WalletRechargeRequest;
+import com.nextuple.walletapi.payload.response.MessageResponse;
+import com.nextuple.walletapi.payload.response.SignupResponse;
+import com.nextuple.walletapi.repository.TransactionRepository;
+import com.nextuple.walletapi.repository.UserRepository;
+import com.nextuple.walletapi.service.AuthService;
+import com.nextuple.walletapi.service.WalletService;
+import com.nextuple.walletapi.service.impl.AuthServiceImpl;
+import com.nextuple.walletapi.service.impl.WalletServiceImpl;
+import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontProperties;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.mockito.Mockito.when;
+
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+@WebMvcTest
+@ContextConfiguration(classes= WavefrontProperties.Application.class)
+class WalletapiApplicationTests {
+	@Autowired
+	private MockMvc mockMvc;
+	@MockBean
+	private AuthService authService;
+	private static ObjectMapper mapper = new ObjectMapper();
+
+
+//@Test
+//public void testPostExample() throws Exception {
+//	Student student = new Student();
+//	student.setId(1);
+//	student.setName("Mike");
+//	Mockito.when(studentService.saveStudent(ArgumentMatchers.any())).thenReturn(student);
+//	String json = mapper.writeValueAsString(student);
+//	mockMvc.perform(post(URIConstant.POST_MAPPING).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
+//					.content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
+//			.andExpect(jsonPath("$.id", Matchers.equalTo(1)))
+//			.andExpect(jsonPath("$.name", Matchers.equalTo("Mike")));
+//}
+
+
+//	public Student saveStudent(Student student) {
+//		student.setId(1);
+//		student.setName("Mike");
+//		return student;
+//	}
+
+//	@PostMapping(URIConstant.POST_MAPPING)
+//	public ResponseEntity<Student> saveStudent(@RequestBody Student student) {
+//		student = studentService.saveStudent(student);
+//		return new ResponseEntity<>(student, HttpStatus.CREATED);
+//	}
+	@Test
+	public void signupTest(){
+		User user = new User("rishabh","12345678","rishabh@gmail.com",0);
+
+		Mockito.when(authService.signup(ArgumentMatchers.any())).thenReturn()
+	}
+
+//	@PostMapping("/signup")
+//	public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
+//		return authService.signup(signupRequest);
+//	}
+
+
+
+
+
+
+
+
+}
+
+
+
+//	@Test
+//	public void signupTestWhenUsernameIsAlreadyTaken()
+//	{
+//		SignupRequest signupRequest=new SignupRequest("rishabh","12345678","rishabh@gmail.com");
+//		User save = this.userRepository.save(new User(signupRequest.getUsername(),signupRequest.getPassword(),signupRequest.getEmail(),0));
+//		ResponseEntity<Object> response = new ResponseEntity<>(new MessageResponse("User Already exists for this username"),
+//				HttpStatus.BAD_REQUEST);
+//			when(authService.signup(signupRequest)).thenReturn(response);
+//
+//		ResponseEntity<Object> expected = new ResponseEntity<>(new MessageResponse("User Already exists for this username"),
+//				HttpStatus.BAD_REQUEST);
+//			Assertions.assertEquals(expected,authService.signup(signupRequest));
+//	}
+
+
+
+
+//	@InjectMocks
+//    private WalletServiceImpl walletService;
+//	@InjectMocks
+//	private AuthServiceImpl authService;
+//
+//	@MockBean
+//	private UserRepository userRepository;
+//	@MockBean
+//	private TransactionRepository transactionRepository;
+//
+//	@Test
+//	public void findAlLByUsernameTest()
+//	{
+//		when(transactionRepository.findAllByUsername("rishabh")).thenReturn(Stream.of(new
+//						Transactions("wallet-recherge","rishabh","Bank","wallet",2000)
+//		,new Transactions("Debit","rishabh",
+//						"rishabh","dipesh",2000)).collect(Collectors.toList()));
+//		Assertions.assertEquals(2,transactionRepository.findAllByUsername("rishabh").size());
+//	}
+//
+//	@Test
+//	public void findByUsernameTest()
+//	{
+//		User user=new User("rishabh","12345678","rishabh@gmail.com",1000);
+//		  when(userRepository.findByUsername("rishabh")).thenReturn(user);
+//
+//		  Assertions.assertEquals("rishabh",user.getUsername());
+//	}
+//
+//	@Test
+//	public void existsByUsernameTest()
+//	{
+//		when(userRepository.existsByUsername("rishabh")).thenReturn(true);
+//		Assertions.assertNotEquals(false,userRepository.existsByUsername("rishabh"));
+//	}
+//	@Test
+//	public void existsByEmailTest()
+//	{
+//		when(userRepository.existsByEmail("rishabh@gmail.com")).thenReturn(true);
+//		Assertions.assertNotEquals(false
+//				,true);
+//	}
