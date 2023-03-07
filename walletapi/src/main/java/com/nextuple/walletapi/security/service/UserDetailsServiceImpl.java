@@ -1,6 +1,6 @@
 package com.nextuple.walletapi.security.service;
 
-import com.nextuple.walletapi.models.User;
+import com.nextuple.walletapi.model.User;
 import com.nextuple.walletapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

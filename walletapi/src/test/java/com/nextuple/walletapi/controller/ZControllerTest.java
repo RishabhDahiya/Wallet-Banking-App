@@ -1,6 +1,6 @@
-package com.nextuple.walletapi;
+package com.nextuple.walletapi.controller;
 
-import com.nextuple.walletapi.models.User;
+import com.nextuple.walletapi.model.User;
 import com.nextuple.walletapi.payload.request.LoginRequest;
 import com.nextuple.walletapi.payload.request.WalletAmountTransferRequest;
 import com.nextuple.walletapi.payload.request.WalletRechargeRequest;
@@ -8,13 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-public class ControllerTest extends AbstractTest{
+public class ZControllerTest extends ZAbstractTest {
 
     @Before
     public void setUp()
@@ -50,7 +47,7 @@ public class ControllerTest extends AbstractTest{
     @Test
     public void signupTestWhenEmailIsTaken() throws Exception{
         String uri ="/api/auth/signup";
-        User user =new User("RishabDahiya","12345678","rishabh@gmail.com",0);
+        User user =new User("RishabDahiya","12345678","email@gmail.com",0);
         String inputJson = super.mapToJson(user);
 
         MvcResult mvcResult=mvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();

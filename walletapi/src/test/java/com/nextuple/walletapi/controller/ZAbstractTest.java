@@ -1,8 +1,9 @@
-package com.nextuple.walletapi;
+package com.nextuple.walletapi.controller;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nextuple.walletapi.WalletapiApplication;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,7 @@ import java.io.IOException;
 @SpringBootTest(classes = WalletapiApplication.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-public  abstract class AbstractTest {
+public  abstract class ZAbstractTest {
     protected MockMvc mvc;
 
     @Autowired

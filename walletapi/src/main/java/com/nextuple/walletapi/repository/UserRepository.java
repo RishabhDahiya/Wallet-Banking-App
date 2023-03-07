@@ -1,6 +1,6 @@
 package com.nextuple.walletapi.repository;
 
-import com.nextuple.walletapi.models.User;
+import com.nextuple.walletapi.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

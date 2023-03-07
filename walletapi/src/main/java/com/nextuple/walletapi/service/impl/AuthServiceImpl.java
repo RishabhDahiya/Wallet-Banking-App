@@ -1,7 +1,7 @@
 package com.nextuple.walletapi.service.impl;
 
 import com.nextuple.walletapi.jwt.JWTUtil;
-import com.nextuple.walletapi.models.User;
+import com.nextuple.walletapi.model.User;
 import com.nextuple.walletapi.payload.request.LoginRequest;
 import com.nextuple.walletapi.payload.request.SignupRequest;
 import com.nextuple.walletapi.payload.response.LoginResponse;
@@ -67,5 +67,8 @@ public class AuthServiceImpl implements AuthService {
             return new ResponseEntity<>(new MessageResponse("Something went wrong at server side"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
 
 }

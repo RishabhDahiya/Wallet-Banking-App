@@ -1,4 +1,4 @@
-package com.nextuple.walletapi.models;
+package com.nextuple.walletapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

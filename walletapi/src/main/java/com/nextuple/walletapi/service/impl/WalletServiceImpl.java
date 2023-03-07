@@ -1,11 +1,10 @@
 package com.nextuple.walletapi.service.impl;
 
 import com.nextuple.walletapi.jwt.JWTUtil;
-import com.nextuple.walletapi.models.Transactions;
-import com.nextuple.walletapi.models.User;
+import com.nextuple.walletapi.model.Transactions;
+import com.nextuple.walletapi.model.User;
 import com.nextuple.walletapi.payload.request.WalletAmountTransferRequest;
 import com.nextuple.walletapi.payload.request.WalletRechargeRequest;
-import com.nextuple.walletapi.payload.response.MessageResponse;
 import com.nextuple.walletapi.repository.TransactionRepository;
 import com.nextuple.walletapi.repository.UserRepository;
 import com.nextuple.walletapi.service.WalletService;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class WalletServiceImpl implements WalletService {
