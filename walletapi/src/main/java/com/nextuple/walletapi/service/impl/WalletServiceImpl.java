@@ -47,12 +47,12 @@ private JWTUtil jwtUtil;
                   return new ResponseEntity<>(("Insufficient Balance"),HttpStatus.BAD_REQUEST);
               sender.setWalletAmount(sender.getWalletAmount() - walletAmountTransferRequest.getAmount());
               reciever.setWalletAmount(reciever.getWalletAmount() + walletAmountTransferRequest.getAmount());
-            Transactions transaction1= new Transactions("Debit", sender.getUsername(), sender.getUsername(), reciever.getUsername(),walletAmountTransferRequest.getAmount());
-            Transactions transaction2= new Transactions("Credit", reciever.getUsername(), sender.getUsername(), reciever.getUsername(),walletAmountTransferRequest.getAmount());
+            Transactions senderTransaction= new Transactions("Debit", sender.getUsername(), sender.getUsername(), reciever.getUsername(),walletAmountTransferRequest.getAmount());
+            Transactions receiverTransaction= new Transactions("Credit", reciever.getUsername(), sender.getUsername(), reciever.getUsername(),walletAmountTransferRequest.getAmount());
             userRepository.save(sender);
             userRepository.save(reciever);
-            transactionRepository.save(transaction1);
-            transactionRepository.save(transaction2);
+            transactionRepository.save(senderTransaction);
+            transactionRepository.save(receiverTransaction);
             return new ResponseEntity<>(("Transaction Successfull"),HttpStatus.OK);
     }
 
