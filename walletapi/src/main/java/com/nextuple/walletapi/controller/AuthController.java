@@ -17,14 +17,14 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<Object> signup(@RequestBody SignupRequest signupRequest) {
         return authService.signup(signupRequest);
     }
 
 
 
     @PostMapping("/login")
-    public  ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public  ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
 //        System.out.println(loginRequest);
         return authService.login(loginRequest);
     }

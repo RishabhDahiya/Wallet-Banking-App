@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,14 +26,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -41,19 +37,44 @@ public class AuthControllerTest {
     @Mock
     private AuthService authService;
     @Mock
-    private WalletService walletService;
-
-    @Mock
     private JWTUtil jwtUtil;
-
     @Mock
     private UserRepository userRepository;
 
+    @InjectMocks
+    private AuthController authController;
 
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+
+//    @Test
+//    public void handleOrderCreateTest_shouldReturnOrderEntity() {
+//        FulfillmentOrderEntity entity = new FulfillmentOrderEntity();
+//        entity.setCustomerOrderNo("COrderNo100");
+//        entity.setFulfillmentOrderNo("FOrderNo100");
+//        entity.setFulfillmentType(CommonFulfillmentType.DELIVERY);
+//        entity.setPickupStoreNo("Store100");
+
+//        CreateOrderEvent createOrderEvent = new CreateOrderEvent();
+//        createOrderEvent.setCustomerOrderNo("COrderNo100");
+//        createOrderEvent.setFulfillmentOrderNo("FOrderNo100");
+//        createOrderEvent.setFulfillmentType(CommonFulfillmentType.DELIVERY);
+//        createOrderEvent.setPickupStoreNo("Store100");
+
+//        when(orderEventConsumerService.processCreateOrderEvent(
+//                anyString(), any(Date.class), any(CreateOrderEvent.class)))
+//                .thenReturn(entity);
+//
+//        ResponseEntity<FulfillmentOrderEntity> responseEntity =
+//                orderController.handleOrderCreate(createOrderEvent);
+//        Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        verify(orderEventConsumerService, times(1))
+//                .processCreateOrderEvent(anyString(), any(Date.class), any(CreateOrderEvent.class));
+//    }
+
     @Test
     public void loginTest_Success() {
         ResponseEntity<Object> entity = new ResponseEntity<>(new LoginResponse("rishabh", "rishabh@gmail.com", "token"), HttpStatus.OK);
@@ -61,9 +82,8 @@ public class AuthControllerTest {
 
         when(authService.login(any(LoginRequest.class))).thenReturn(entity);
 
-        ResponseEntity<Object> responseEntity = authService.login(loginRequest);
+        ResponseEntity<Object> responseEntity = authController.login(loginRequest);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        verify(authService, times(1)).login(any(LoginRequest.class));
     }
 
 
@@ -75,23 +95,19 @@ public class AuthControllerTest {
 
         when(authService.login(any(LoginRequest.class))).thenReturn(entity);
 
-        ResponseEntity<Object> responseEntity = authService.login(loginRequest);
+        ResponseEntity<Object> responseEntity = authController.login(loginRequest);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-//        verify(authService,times(1)).login(any(LoginRequest.class));
     }
 
     @Test
     public void signupTest_Success() {
         ResponseEntity<Object> entity = new ResponseEntity<>(new SignupResponse("rishabh", "rishabh@gmail.com", "User Registration Successfull"), HttpStatus.OK);
-
         SignupRequest signupRequest = new SignupRequest("rishabh", "123456", "rishabh@gmail.com");
-
 
         when(authService.signup(any(SignupRequest.class))).thenReturn(entity);
 
-        ResponseEntity<Object> responseEntity = authService.signup(signupRequest);
+        ResponseEntity<Object> responseEntity = authController.signup(signupRequest);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        verify(authService, times(1)).signup(any(SignupRequest.class));
     }
 
     @Test
@@ -100,7 +116,8 @@ public class AuthControllerTest {
         SignupRequest signupRequest = new SignupRequest("rishabh", "123456", "rishabh@gmail.com");
 
         when(authService.signup(any(SignupRequest.class))).thenReturn(entity);
-        ResponseEntity<Object> responseEntity = authService.signup(signupRequest);
+
+        ResponseEntity<Object> responseEntity = authController.signup(signupRequest);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 }

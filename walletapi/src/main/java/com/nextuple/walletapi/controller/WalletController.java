@@ -17,7 +17,7 @@ public class WalletController {
     private WalletService walletService;
 
     @PostMapping("/recharge")
-    public ResponseEntity<?>  recharge(@RequestHeader("Authorization") String token,@RequestBody WalletRechargeRequest walletRechargeRequest){
+    public ResponseEntity<Object>  recharge(@RequestHeader("Authorization") String token,@RequestBody WalletRechargeRequest walletRechargeRequest){
 //        System.out.println(token);
 //        System.out.println(walletRechargeRequest);
 //        System.out.println(token);
@@ -28,21 +28,21 @@ public class WalletController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<?>  walletTransfer(@RequestHeader("Authorization") String token, @RequestBody WalletAmountTransferRequest walletAmountTransferRequest){
+    public ResponseEntity<Object>  walletTransfer(@RequestHeader("Authorization") String token, @RequestBody WalletAmountTransferRequest walletAmountTransferRequest){
 //        System.out.println(walletAmountTransferRequest);
 //        System.out.println(walletAmountTransferRequest);
         return walletService.walletAmountTransfer(token,walletAmountTransferRequest);
     }
 
     @GetMapping("/show-balance")
-      public ResponseEntity<?> showBalance(@RequestHeader ("Authorization") String token)
+      public ResponseEntity<Object> showBalance(@RequestHeader ("Authorization") String token)
     {
 //        System.out.println(token);
         return walletService.showBalance(token);
     }
 
     @GetMapping("/show-all-transactions")
-    public ResponseEntity<?>  showTransactions(@RequestHeader("Authorization") String token){
+    public ResponseEntity<Object>  showTransactions(@RequestHeader("Authorization") String token){
         return walletService.showAllTransactions(token);
     }
 
